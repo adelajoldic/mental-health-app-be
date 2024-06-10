@@ -1,7 +1,10 @@
 package com.example.mindspaceBE.services;
 
+import com.example.mindspaceBE.models.AnxietyQuizDTO;
 import com.example.mindspaceBE.models.UserDTO;
+import com.example.mindspaceBE.models.entities.AnxietyQuizResult;
 import com.example.mindspaceBE.models.entities.User;
+import com.example.mindspaceBE.repositories.AnxietyQuizResultRepository;
 import com.example.mindspaceBE.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,9 +20,10 @@ import java.util.Optional;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-
-    public AuthenticationService(UserRepository userRepository) {
+    private final AnxietyQuizResultRepository anxietyQuizResultRepository;
+    public AuthenticationService(UserRepository userRepository, AnxietyQuizResultRepository anxietyQuizResultRepository) {
         this.userRepository = userRepository;
+        this.anxietyQuizResultRepository = anxietyQuizResultRepository;
     }
 
     public User registerNewUser(UserDTO userDTO) {
@@ -80,5 +84,13 @@ public class AuthenticationService {
     public User getUserProfile(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         return optionalUser.orElse(null);
+    }
+
+    public AnxietyQuizResult saveAnxietyQuizResult(AnxietyQuizDTO anxietyQuizDTO) {
+        AnxietyQuizResult anxietyQuizResult = new AnxietyQuizResult();
+        anxietyQuizResult.setEmail(anxietyQuizDTO.getEmail());
+        anxietyQuizResult.setTotalQuestions(anxietyQuizDTO.getTotalQuestions());
+        anxietyQuizResult.setCorrectAnswers(anxietyQuizDTO.getCorrectAnswers());
+        return anxietyQuizResultRepository.save(anxietyQuizResult);
     }
 }

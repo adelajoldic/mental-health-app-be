@@ -1,7 +1,9 @@
 package com.example.mindspaceBE.controllers;
 
 
+import com.example.mindspaceBE.models.AnxietyQuizDTO;
 import com.example.mindspaceBE.models.UserDTO;
+import com.example.mindspaceBE.models.entities.AnxietyQuizResult;
 import com.example.mindspaceBE.models.entities.User;
 import com.example.mindspaceBE.services.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,5 +42,11 @@ public class AuthenticationController {
     public ResponseEntity<User> getUserProfile(@PathVariable Long userId) {
         User user = authenticationService.getUserProfile(userId);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping(value = "/anxiety-quiz-result")
+    public ResponseEntity<AnxietyQuizResult> saveAnxietyQuizResult(@RequestBody AnxietyQuizDTO anxietyQuizDTO) {
+        AnxietyQuizResult savedResult = authenticationService.saveAnxietyQuizResult(anxietyQuizDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedResult);
     }
 }
