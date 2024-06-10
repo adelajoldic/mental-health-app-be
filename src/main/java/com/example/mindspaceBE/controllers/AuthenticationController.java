@@ -5,11 +5,10 @@ import com.example.mindspaceBE.models.UserDTO;
 import com.example.mindspaceBE.models.entities.User;
 import com.example.mindspaceBE.services.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "")
 @RestController
@@ -35,5 +34,11 @@ public class AuthenticationController {
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         authenticationService.logout(request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/profile/{userId}")
+    public ResponseEntity<User> getUserProfile(@PathVariable Long userId) {
+        User user = authenticationService.getUserProfile(userId);
+        return ResponseEntity.ok(user);
     }
 }

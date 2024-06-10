@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -74,5 +75,10 @@ public class AuthenticationService {
             stringBuilder.append(Integer.toHexString(0xFF & pass));
         }
         return stringBuilder.toString();
+    }
+
+    public User getUserProfile(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElse(null);
     }
 }
