@@ -3,6 +3,8 @@ package com.example.mindspaceBE.services;
 import com.example.mindspaceBE.models.UserDTO;
 import com.example.mindspaceBE.models.entities.User;
 import com.example.mindspaceBE.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -53,6 +55,13 @@ public class AuthenticationService {
             return user;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
     }
 
